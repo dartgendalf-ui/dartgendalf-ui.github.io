@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SanForce — Аэродромная техника | Airport GSE</title>
+<meta name="description" content="SanForce — поставка и обслуживание китайской аэродромной техники. Пассажирские трапы, тягачи, погрузчики и запчасти.">
+<style>
+/* ===== CSS RESET & CUSTOM PROPERTIES ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0c3d5e;
+  --primary-light:#0e4d75;
+  --primary-dark:#092e47;
+  --accent:#dc2626;
+  --accent-hover:#b91c1c;
+  --white:#ffffff;
+  --light-bg:#f0f4f8;
+  --text-dark:#1a1a2e;
+  --text-muted:#64748b;
+  --border:#94a3b8;
+  --border-light:#cbd5e1;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.06);
+  --shadow-xl:0 24px 60px rgba(0,0,0,.16),0 8px 20px rgba(0,0,0,.08);
+  --radius-sm:6px;
+  --radius-md:10px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',Roboto,Oxygen,Ubuntu,sans-serif;
+  --transition:0.3s cubic-bezier(.16,1,.3,1);
+  --header-h:72px;
+}
+html{scroll-behavior:smooth;font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);color:var(--text-dark);background:var(--white);line-height:1.6;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none}
+ul,ol{list-style:none}
+input,select,textarea{font:inherit;border:none;outline:none}
+
+/* ===== UTILITY ===== */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section-padding{padding:80px 0}
+@media(max-width:768px){.section-padding{padding:48px 0}.container{padding:0 16px}}
+
+/* ===== LANGUAGE SYSTEM ===== */
+[data-lang-en],[data-lang-cn]{display:none !important}
+body.lang-en [data-lang-ru]{display:none !important}
+body.lang-en [data-lang-en]{display:revert !important}
+body.lang-cn [data-lang-ru]{display:none !important}
+body.lang-cn [data-lang-cn]{display:revert !important}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.fade-in{opacity:0;transition:opacity 0.7s ease}
+.fade-in.visible{opacity:1}
+
+/* ===== TOP ACCENT LINE ===== */
+.top-accent{height:4px;background:var(--accent);position:fixed;top:0;left:0;right:0;z-index:1001}
+
+/* ===== HEADER ===== */
+.header{position:fixed;top:4px;left:0;right:0;z-index:1000;background:rgba(12,61,94,.97);backdrop-filter:blur(12px);height:var(--header-h);transition:box-shadow var(--transition),background var(--transition)}
+.header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:4px;font-size:28px;font-weight:700;letter-spacing:-0.5px;flex-shrink:0}
+.logo .san{color:var(--accent)}
+.logo .force{color:var(--white)}
+.logo svg{width:40px;height:40px;margin-right:6px}
+
+/* Desktop Nav */
+.nav{display:flex;align-items:center;gap:28px}
+.nav a{color:rgba(255,255,255,.85);font-size:14px;font-weight:500;letter-spacing:.3px;transition:color var(--transition);position:relative;white-space:nowrap}
+.nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width var(--transition)}
+.nav a:hover{color:var(--white)}
+.nav a:hover::after{width:100%}
+
+/* Header actions */
+.header-actions{display:flex;align-items:center;gap:16px}
+.lang-switch{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:var(--radius-sm);padding:2px;flex-shrink:0}
+.lang-btn{padding:5px 10px;font-size:12px;font-weight:600;color:rgba(255,255,255,.6);border-radius:4px;transition:all var(--transition);letter-spacing:.5px}
+.lang-btn.active{background:var(--accent);color:var(--white)}
+.lang-btn:hover:not(.active){color:var(--white)}
+.cta-header{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--white);padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;letter-spacing:.3px;transition:all var(--transition);white-space:nowrap}
+.cta-header:hover{background:var(--accent-hover);transform:translateY(-1px)}
+
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;width:28px;cursor:pointer;z-index:1002;padding:4px 0}
+.hamburger span{display:block;height:2px;background:var(--white);border-radius:2px;transition:all var(--transition)}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile menu */
+.mobile-menu{display:none;position:fixed;top:calc(var(--header-h) + 4px);left:0;right:0;bottom:0;background:var(--primary);flex-direction:column;padding:32px 24px;gap:4px;overflow-y:auto;z-index:999;opacity:0;transform:translateY(-10px);transition:opacity .3s ease,transform .3s ease}
+.mobile-menu.open{display:flex;opacity:1;transform:translateY(0)}
+.mobile-menu a{color:var(--white);font-size:18px;font-weight:500;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.mobile-menu .lang-switch{margin-top:16px;align-self:flex-start}
+.mobile-menu .cta-header{margin-top:16px;justify-content:center;padding:14px 24px;font-size:16px}
+
+@media(max-width:1024px){
+  .nav,.header-actions .cta-header{display:none}
+  .hamburger{display:flex}
+  .header-actions{gap:8px}
+}
+@media(max-width:480px){
+  .logo{font-size:22px}
+  .logo svg{width:32px;height:32px}
+}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(160deg,var(--primary-dark) 0%,var(--primary) 50%,var(--primary-light) 100%);overflow:hidden;padding-top:calc(var(--header-h) + 4px)}
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.hero-bg svg{position:absolute;bottom:-2px;right:-5%;width:110%;max-width:900px;height:auto;opacity:.08}
+.hero-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:60px 60px}
+.hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero-text{color:var(--white)}
+.hero-text .overline{display:inline-block;font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;padding:6px 14px;border:1px solid rgba(220,38,38,.4);border-radius:var(--radius-sm)}
+.hero-text h1{font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:20px}
+.hero-text .tagline{font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:32px;max-width:540px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--white);padding:16px 36px;border-radius:var(--radius-sm);font-size:16px;font-weight:600;transition:all var(--transition)}
+.hero-cta:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(220,38,38,.4)}
+.hero-cta svg{width:20px;height:20px;transition:transform var(--transition)}
+.hero-cta:hover svg{transform:translateX(4px)}
+.hero-illustration{display:flex;justify-content:center;align-items:center}
+.hero-illustration svg{width:100%;max-width:520px;height:auto}
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;text-align:center}
+  .hero-text .tagline{margin-left:auto;margin-right:auto}
+  .hero-cta{margin:0 auto}
+  .hero-illustration{display:none}
+}
+
+/* ===== TICKER ===== */
+.ticker{background:var(--white);border-bottom:1px solid var(--border-light);padding:24px 0;overflow:hidden;position:relative}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--white),transparent)}
+.ticker::after{right:0;background:linear-gradient(-90deg,var(--white),transparent)}
+.ticker-track{display:flex;gap:80px;align-items:center;animation:scroll 25s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700;color:var(--text-muted);white-space:nowrap;letter-spacing:1px;flex-shrink:0}
+.ticker-item svg{width:32px;height:32px}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== SECTION HEADERS ===== */
+.section-header{text-align:center;margin-bottom:56px}
+.section-header .label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.section-header h2{font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--text-dark);letter-spacing:-0.5px;line-height:1.15}
+.section-header p{font-size:17px;color:var(--text-muted);max-width:600px;margin:16px auto 0;line-height:1.6}
+.section-header.light h2{color:var(--white)}
+.section-header.light p{color:rgba(255,255,255,.7)}
+.section-header.light .label{color:rgba(255,255,255,.5)}
+
+/* ===== CATALOG ===== */
+.catalog{background:var(--light-bg)}
+.cat-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:40px}
+.cat-filter-btn{padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;background:var(--white);color:var(--text-dark);border:1px solid var(--border-light);transition:all var(--transition);cursor:pointer}
+.cat-filter-btn:hover,.cat-filter-btn.active{background:var(--primary);color:var(--white);border-color:var(--primary)}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+@media(max-width:768px){.cat-grid{grid-template-columns:1fr}}
+.cat-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:all var(--transition);cursor:pointer;border:1px solid var(--border-light)}
+.cat-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.cat-card-header{background:var(--primary);padding:24px;display:flex;align-items:center;gap:16px;color:var(--white)}
+.cat-card-header svg{width:48px;height:48px;flex-shrink:0;opacity:.9}
+.cat-card-header h3{font-size:18px;font-weight:700;line-height:1.3}
+.cat-card-header span{font-size:13px;opacity:.7;display:block;margin-top:4px}
+.cat-card-body{padding:20px 24px}
+.cat-card-body ul{display:flex;flex-direction:column;gap:8px}
+.cat-card-body li{font-size:14px;color:var(--text-muted);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.cat-card-body li svg{width:16px;height:16px;flex-shrink:0;color:var(--accent);margin-top:2px}
+.cat-card-footer{padding:12px 24px 20px;display:flex;justify-content:flex-end}
+.cat-card-footer button{font-size:13px;font-weight:600;color:var(--primary);display:flex;align-items:center;gap:4px;transition:color var(--transition)}
+.cat-card-footer button:hover{color:var(--accent)}
+.cat-card-footer button svg{width:16px;height:16px;transition:transform var(--transition)}
+.cat-card-footer button:hover svg{transform:translateX(4px)}
+
+/* ===== PRODUCT MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-xl);position:relative;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--light-bg);display:flex;align-items:center;justify-content:center;transition:all var(--transition);z-index:10}
+.modal-close:hover{background:var(--accent);color:var(--white)}
+.modal-close svg{width:20px;height:20px}
+.modal-header{background:var(--primary);color:var(--white);padding:32px;border-radius:var(--radius-xl) var(--radius-xl) 0 0;display:flex;align-items:center;gap:24px}
+.modal-header svg{width:80px;height:80px;flex-shrink:0;opacity:.9}
+.modal-header h3{font-size:24px;font-weight:800;margin-bottom:4px}
+.modal-header span{font-size:14px;opacity:.7}
+.modal-body{padding:32px}
+.modal-body h4{font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-body h4 svg{width:20px;height:20px;color:var(--accent)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.product-card{background:var(--light-bg);border-radius:var(--radius-md);padding:20px;border:1px solid var(--border-light);transition:all var(--transition);cursor:pointer}
+.product-card:hover{border-color:var(--primary);box-shadow:var(--shadow-md)}
+.product-card .product-icon{width:100%;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--white);border-radius:var(--radius-sm)}
+.product-card .product-icon svg{width:80px;height:60px;color:var(--primary)}
+.product-card h5{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--text-dark)}
+.product-card p{font-size:12px;color:var(--text-muted);line-height:1.4}
+
+/* Product detail modal */
+.detail-modal .modal-body{padding:0}
+.detail-top{display:grid;grid-template-columns:280px 1fr;gap:0}
+@media(max-width:600px){.detail-top{grid-template-columns:1fr}}
+.detail-illustration{background:var(--light-bg);display:flex;align-items:center;justify-content:center;padding:40px;min-height:200px}
+.detail-illustration svg{width:180px;height:140px;color:var(--primary)}
+.detail-info{padding:32px}
+.detail-info h4{font-size:20px;font-weight:800;color:var(--text-dark);margin-bottom:4px}
+.detail-info .detail-model{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:16px}
+.detail-info p{font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:20px}
+.specs-table{width:100%;border-collapse:collapse}
+.specs-table tr{border-bottom:1px solid var(--border-light)}
+.specs-table td{padding:10px 16px;font-size:13px}
+.specs-table td:first-child{font-weight:600;color:var(--text-dark);width:40%;background:rgba(240,244,248,.5)}
+.specs-table td:last-child{color:var(--text-muted)}
+.detail-cta{padding:24px 32px;border-top:1px solid var(--border-light);display:flex;gap:12px;flex-wrap:wrap}
+.detail-cta .btn-primary{background:var(--accent);color:var(--white);padding:12px 28px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;transition:all var(--transition);display:inline-flex;align-items:center;gap:8px}
+.detail-cta .btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.detail-cta .btn-secondary{background:var(--light-bg);color:var(--text-dark);padding:12px 28px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;border:1px solid var(--border-light);transition:all var(--transition)}
+.detail-cta .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+
+/* ===== ABOUT / STATS ===== */
+.about{background:var(--white)}
+.about-content{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:64px}
+@media(max-width:768px){.about-content{grid-template-columns:1fr}}
+.about-text h3{font-size:clamp(24px,3vw,32px);font-weight:800;margin-bottom:16px;line-height:1.2}
+.about-text p{font-size:16px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+.about-illustration{display:flex;align-items:center;justify-content:center}
+.about-illustration svg{width:100%;max-width:400px;height:auto}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.stat-card{background:var(--light-bg);border-radius:var(--radius-lg);padding:28px 24px;text-align:center;border:1px solid var(--border-light);transition:all var(--transition)}
+.stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--primary)}
+.stat-card .stat-number{font-size:36px;font-weight:800;color:var(--primary);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.stat-card .stat-label{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.3}
+
+/* ===== SERVICES ===== */
+.services{background:var(--primary);color:var(--white)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+@media(max-width:768px){.services-grid{grid-template-columns:1fr}}
+.service-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);padding:32px;transition:all var(--transition)}
+.service-card:hover{background:rgba(255,255,255,.12);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.service-card svg{width:48px;height:48px;margin-bottom:20px;color:var(--accent)}
+.service-card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.service-card p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6}
+
+/* ===== CLIENTS ===== */
+.clients{background:var(--white)}
+.clients-section{margin-bottom:48px}
+.clients-section h3{font-size:18px;font-weight:700;text-align:center;margin-bottom:24px;color:var(--text-dark)}
+.clients-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;align-items:center}
+.client-logo{background:var(--light-bg);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:16px 28px;font-size:16px;font-weight:700;color:var(--text-dark);transition:all var(--transition);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.client-logo:hover{border-color:var(--primary);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.client-logo svg{width:24px;height:24px}
+
+/* ===== QUOTE FORM ===== */
+.quote{background:var(--light-bg)}
+.quote-form-wrapper{max-width:680px;margin:0 auto;background:var(--white);border-radius:var(--radius-xl);padding:40px;box-shadow:var(--shadow-lg);border:1px solid var(--border-light)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:13px;font-weight:600;color:var(--text-dark)}
+.form-group input,.form-group select,.form-group textarea{padding:12px 16px;border:1px solid var(--border-light);border-radius:var(--radius-sm);font-size:14px;color:var(--text-dark);background:var(--light-bg);transition:border-color var(--transition)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{margin-top:20px;display:flex;justify-content:center}
+.form-submit button{background:var(--accent);color:var(--white);padding:14px 40px;border-radius:var(--radius-sm);font-size:16px;font-weight:700;transition:all var(--transition);display:flex;align-items:center;gap:8px}
+.form-submit button:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,38,38,.3)}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--primary-dark);color:var(--white);padding:48px 0 0}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
+.footer-col h4{font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;color:rgba(255,255,255,.5)}
+.footer-col p,.footer-col a{font-size:14px;color:rgba(255,255,255,.7);line-height:1.7;display:block;transition:color var(--transition)}
+.footer-col a:hover{color:var(--white)}
+.footer-col .contact-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.footer-col .contact-item svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;color:var(--accent)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:20px 0;text-align:center;font-size:13px;color:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+
+<!-- TOP ACCENT LINE -->
+<div class="top-accent"></div>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="SanForce">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="36" height="36" rx="8" stroke="#dc2626" stroke-width="2.5" fill="none"/>
+        <path d="M12 28V22L20 18L28 22V28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20 12V18" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="10" r="2" fill="#dc2626"/>
+        <path d="M14 14L20 12L26 14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span><span class="san">San</span><span class="force">Force</span></span>
+    </a>
+
+    <nav class="nav" id="desktopNav">
+      <a href="#catalog" data-lang-ru>Техника</a><a href="#catalog" data-lang-en>Equipment</a><a href="#catalog" data-lang-cn>设备</a>
+      <a href="#about" data-lang-ru>О компании</a><a href="#about" data-lang-en>About</a><a href="#about" data-lang-cn>关于我们</a>
+      <a href="#services" data-lang-ru>Услуги</a><a href="#services" data-lang-en>Services</a><a href="#services" data-lang-cn>服务</a>
+      <a href="#clients" data-lang-ru>Клиенты</a><a href="#clients" data-lang-en>Clients</a><a href="#clients" data-lang-cn>客户</a>
+      <a href="#partners" data-lang-ru>Партнёры</a><a href="#partners" data-lang-en>Partners</a><a href="#partners" data-lang-cn>合作伙伴</a>
+      <a href="#contacts" data-lang-ru>Контакты</a><a href="#contacts" data-lang-en>Contacts</a><a href="#contacts" data-lang-cn>联系方式</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="cn">CN</button>
+      </div>
+      <a href="#quote" class="cta-header">
+        <span data-lang-ru>Оставить заявку</span><span data-lang-en>Request Quote</span><span data-lang-cn>获取报价</span>
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#catalog" data-lang-ru>Техника</a><a href="#catalog" data-lang-en>Equipment</a><a href="#catalog" data-lang-cn>设备</a>
+  <a href="#about" data-lang-ru>О компании</a><a href="#about" data-lang-en>About</a><a href="#about" data-lang-cn>关于我们</a>
+  <a href="#services" data-lang-ru>Услуги</a><a href="#services" data-lang-en>Services</a><a href="#services" data-lang-cn>服务</a>
+  <a href="#clients" data-lang-ru>Клиенты</a><a href="#clients" data-lang-en>Clients</a><a href="#clients" data-lang-cn>客户</a>
+  <a href="#partners" data-lang-ru>Партнёры</a><a href="#partners" data-lang-en>Partners</a><a href="#partners" data-lang-cn>合作伙伴</a>
+  <a href="#contacts" data-lang-ru>Контакты</a><a href="#contacts" data-lang-en>Contacts</a><a href="#contacts" data-lang-cn>联系方式</a>
+  <div class="lang-switch">
+    <button class="lang-btn active" data-lang="ru">RU</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="cn">CN</button>
+  </div>
+  <a href="#quote" class="cta-header">
+    <span data-lang-ru>Оставить заявку</span><span data-lang-en>Request Quote</span><span data-lang-cn>获取报价</span>
+  </a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <!-- Large airport silhouette background -->
+    <svg viewBox="0 0 900 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Runway -->
+      <rect x="0" y="350" width="900" height="50" fill="white"/>
+      <!-- Terminal building -->
+      <rect x="50" y="180" width="300" height="170" rx="4" fill="white"/>
+      <rect x="60" y="200" width="40" height="50" rx="2" fill="rgba(255,255,255,.5)"/>
+      <rect x="110" y="200" width="40" height="50" rx="2" fill="rgba(255,255,255,.5)"/>
+      <rect x="160" y="200" width="40" height="50" rx="2" fill="rgba(255,255,255,.5)"/>
+      <rect x="210" y="200" width="40" height="50" rx="2" fill="rgba(255,255,255,.5)"/>
+      <rect x="260" y="200" width="40" height="50" rx="2" fill="rgba(255,255,255,.5)"/>
+      <!-- Control tower -->
+      <rect x="380" y="100" width="40" height="250" rx="2" fill="white"/>
+      <rect x="365" y="80" width="70" height="30" rx="4" fill="white"/>
+      <rect x="370" y="60" width="60" height="25" rx="12" fill="white"/>
+      <!-- Aircraft silhouette -->
+      <path d="M550 280 L560 260 L680 250 L720 200 L730 200 L700 250 L800 240 L820 220 L830 220 L810 245 L850 240 L850 250 L810 255 L830 270 L820 270 L800 255 L700 260 L730 310 L720 310 L680 265 L560 275 Z" fill="white"/>
+      <!-- Ground equipment -->
+      <rect x="460" y="320" width="60" height="30" rx="4" fill="white"/>
+      <circle cx="470" cy="355" r="8" fill="white"/>
+      <circle cx="510" cy="355" r="8" fill="white"/>
+      <rect x="600" y="310" width="40" height="40" rx="2" fill="white"/>
+      <rect x="590" y="300" width="60" height="15" rx="2" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="overline">
+        <span data-lang-ru>SanForce GSE</span>
+        <span data-lang-en>SanForce GSE</span>
+        <span data-lang-cn>SanForce 地面保障设备</span>
+      </div>
+      <h1>
+        <span data-lang-ru>ТЕХНИКА ДЛЯ ОБСЛУЖИВАНИЯ ВОЗДУШНЫХ СУДОВ</span>
+        <span data-lang-en>AIRCRAFT GROUND SUPPORT EQUIPMENT</span>
+        <span data-lang-cn>飞机地面保障设备</span>
+      </h1>
+      <p class="tagline">
+        <span data-lang-ru>Ваш надёжный партнёр на рынке аэродромной техники. Поставка, сервис и запасные части для оборудования ведущих китайских производителей.</span>
+        <span data-lang-en>Your Reliable Partner in Airport Ground Support Equipment. Supply, service, and spare parts for equipment from leading Chinese manufacturers.</span>
+        <span data-lang-cn>您在机场地面保障设备市场的可靠合作伙伴。提供领先中国制造商设备的供应、服务和备件。</span>
+      </p>
+      <a href="#quote" class="hero-cta">
+        <span data-lang-ru>Запросить коммерческое предложение</span>
+        <span data-lang-en>Request a Quote</span>
+        <span data-lang-cn>获取报价</span>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg>
+      </a>
+    </div>
+    <div class="hero-illustration">
+      <!-- Stylized airport stairs vehicle SVG -->
+      <svg viewBox="0 0 520 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ground line -->
+        <line x1="0" y1="360" x2="520" y2="360" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <!-- Vehicle body -->
+        <rect x="60" y="280" width="200" height="80" rx="8" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+        <!-- Cabin -->
+        <rect x="60" y="280" width="80" height="60" rx="6" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+        <rect x="70" y="290" width="30" height="25" rx="3" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+        <!-- Wheels -->
+        <circle cx="110" cy="360" r="18" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+        <circle cx="110" cy="360" r="8" fill="rgba(255,255,255,.15)"/>
+        <circle cx="220" cy="360" r="18" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+        <circle cx="220" cy="360" r="8" fill="rgba(255,255,255,.15)"/>
+        <!-- Stairs -->
+        <line x1="260" y1="280" x2="420" y2="120" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+        <line x1="260" y1="280" x2="380" y2="120" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+        <!-- Steps -->
+        <line x1="272" y1="265" x2="312" y2="265" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="285" y1="248" x2="325" y2="248" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="298" y1="231" x2="338" y2="231" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="311" y1="214" x2="351" y2="214" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="324" y1="197" x2="364" y2="197" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="337" y1="180" x2="377" y2="180" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="350" y1="163" x2="390" y2="163" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <line x1="363" y1="146" x2="403" y2="146" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+        <!-- Platform top -->
+        <rect x="370" y="110" width="60" height="20" rx="3" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+        <!-- Railing -->
+        <line x1="370" y1="110" x2="370" y2="90" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+        <line x1="430" y1="110" x2="430" y2="90" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+        <line x1="370" y1="90" x2="430" y2="90" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+        <!-- Aircraft door indication -->
+        <rect x="440" y="50" width="60" height="300" rx="4" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="4 4"/>
+        <rect x="445" y="100" width="50" height="40" rx="6" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <!-- SanForce label on vehicle -->
+        <text x="130" y="325" font-family="sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,.6)" text-anchor="middle">SanForce</text>
+        <!-- Accent light -->
+        <circle cx="70" cy="310" r="4" fill="#dc2626" opacity=".7"/>
+        <!-- Decorative elements -->
+        <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <circle cx="480" cy="380" r="20" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <path d="M20 200 L40 180 L60 200" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARTNER BRANDS TICKER ===== -->
+<section class="ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="8" width="28" height="16" rx="3" stroke="#0c3d5e" stroke-width="2"/><text x="16" y="20" font-size="8" font-weight="800" fill="#0c3d5e" text-anchor="middle">SH</text></svg>
+      SHAGE
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#dc2626" stroke-width="2"/><text x="16" y="20" font-size="7" font-weight="800" fill="#dc2626" text-anchor="middle">天嘉</text></svg>
+      TIEC 天嘉智能
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><polygon points="16,3 29,16 16,29 3,16" stroke="#0c3d5e" stroke-width="2" fill="none"/><text x="16" y="20" font-size="6" font-weight="800" fill="#0c3d5e" text-anchor="middle">GQ</text></svg>
+      GRiQUiP
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="4" width="28" height="24" rx="4" stroke="#64748b" stroke-width="2"/><text x="16" y="20" font-size="6" font-weight="800" fill="#64748b" text-anchor="middle">AG</text></svg>
+      AGRiQUiP
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="6" stroke="#0c3d5e" stroke-width="2"/><text x="16" y="19" font-size="6" font-weight="800" fill="#dc2626" text-anchor="middle">SF</text></svg>
+      SanForce
+    </div>
+    <!-- Duplicate for seamless scroll -->
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="8" width="28" height="16" rx="3" stroke="#0c3d5e" stroke-width="2"/><text x="16" y="20" font-size="8" font-weight="800" fill="#0c3d5e" text-anchor="middle">SH</text></svg>
+      SHAGE
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#dc2626" stroke-width="2"/><text x="16" y="20" font-size="7" font-weight="800" fill="#dc2626" text-anchor="middle">天嘉</text></svg>
+      TIEC 天嘉智能
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><polygon points="16,3 29,16 16,29 3,16" stroke="#0c3d5e" stroke-width="2" fill="none"/><text x="16" y="20" font-size="6" font-weight="800" fill="#0c3d5e" text-anchor="middle">GQ</text></svg>
+      GRiQUiP
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="4" width="28" height="24" rx="4" stroke="#64748b" stroke-width="2"/><text x="16" y="20" font-size="6" font-weight="800" fill="#64748b" text-anchor="middle">AG</text></svg>
+      AGRiQUiP
+    </div>
+    <div class="ticker-item">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="6" stroke="#0c3d5e" stroke-width="2"/><text x="16" y="19" font-size="6" font-weight="800" fill="#dc2626" text-anchor="middle">SF</text></svg>
+      SanForce
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATALOG ===== -->
+<section class="catalog section-padding" id="catalog">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label">
+        <span data-lang-ru>КАТАЛОГ</span><span data-lang-en>CATALOG</span><span data-lang-cn>产品目录</span>
+      </div>
+      <h2>
+        <span data-lang-ru>Аэродромная техника</span><span data-lang-en>Airport Ground Support Equipment</span><span data-lang-cn>机场地面保障设备</span>
+      </h2>
+      <p>
+        <span data-lang-ru>Полный спектр техники для обслуживания воздушных судов от ведущих китайских производителей</span>
+        <span data-lang-en>Complete range of aircraft servicing equipment from leading Chinese manufacturers</span>
+        <span data-lang-cn>来自领先中国制造商的全系列飞机维护设备</span>
+      </p>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="cat-filters fade-up" id="catFilters">
+      <button class="cat-filter-btn active" data-filter="all">
+        <span data-lang-ru>Все</span><span data-lang-en>All</span><span data-lang-cn>全部</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="passenger">
+        <span data-lang-ru>Пассажиры</span><span data-lang-en>Passenger</span><span data-lang-cn>旅客</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="aircraft">
+        <span data-lang-ru>Воздушные суда</span><span data-lang-en>Aircraft</span><span data-lang-cn>飞机</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="cargo">
+        <span data-lang-ru>Грузы</span><span data-lang-en>Cargo</span><span data-lang-cn>货物</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="airfield">
+        <span data-lang-ru>Аэродром</span><span data-lang-en>Airfield</span><span data-lang-cn>机场</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="auxiliary">
+        <span data-lang-ru>Вспомогательное</span><span data-lang-en>Auxiliary</span><span data-lang-cn>辅助</span>
+      </button>
+      <button class="cat-filter-btn" data-filter="parts">
+        <span data-lang-ru>Запчасти</span><span data-lang-en>Parts</span><span data-lang-cn>备件</span>
+      </button>
+    </div>
+
+    <!-- Category Cards Grid -->
+    <div class="cat-grid" id="catGrid">
+
+      <!-- A. Passenger Service -->
+      <div class="cat-card fade-up" data-category="passenger" onclick="openCategoryModal('passenger')">
+        <div class="cat-card-header">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="30" width="24" height="12" rx="3"/><circle cx="12" cy="44" r="3"/><circle cx="24" cy="44" r="3"/>
+            <line x1="30" y1="30" x2="42" y2="10"/><line x1="30" y1="36" x2="38" y2="10"/>
+            <line x1="32" y1="27" x2="40" y2="27"/><line x1="34" y1="23" x2="41" y2="23"/><line x1="35" y1="19" x2="42" y2="19"/><line x1="37" y1="15" x2="43" y2="15"/>
+            <rect x="37" y="6" width="8" height="6" rx="1"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Обслуживание пассажиров</span>
+              <span data-lang-en>Passenger Service</span>
+              <span data-lang-cn>旅客服务</span>
+            </h3>
+            <span>
+              <span data-lang-ru>Трапы, автобусы, амбулифты</span>
+              <span data-lang-en>Stairs, buses, ambulifts</span>
+              <span data-lang-cn>登机梯、巴士、救护升降机</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Пассажирские трапы (самоходные, буксируемые)</span><span data-lang-en>Passenger stairs (self-propelled, towed)</span><span data-lang-cn>旅客登机梯（自行式、牵引式）</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Перронные автобусы (дизельные, электрические)</span><span data-lang-en>Apron buses (diesel, electric)</span><span data-lang-cn>停机坪巴士（柴油、电动）</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Амбулифты</span><span data-lang-en>Ambulifts</span><span data-lang-cn>救护升降机</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Подробнее</span><span data-lang-en>View details</span><span data-lang-cn>查看详情</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- B. Aircraft Service -->
+      <div class="cat-card fade-up" data-category="aircraft" onclick="openCategoryModal('aircraft')">
+        <div class="cat-card-header">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="38" r="6"/><circle cx="24" cy="38" r="2.5"/>
+            <rect x="8" y="24" width="32" height="12" rx="4"/>
+            <path d="M16 24V18a8 8 0 0 1 16 0v6"/>
+            <line x1="24" y1="10" x2="24" y2="6"/>
+            <line x1="20" y1="12" x2="18" y2="8"/>
+            <line x1="28" y1="12" x2="30" y2="8"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Обслуживание воздушных судов</span>
+              <span data-lang-en>Aircraft Service</span>
+              <span data-lang-cn>飞机维护</span>
+            </h3>
+            <span>
+              <span data-lang-ru>Тягачи, кейтеринг, топливо, вода</span>
+              <span data-lang-en>Tractors, catering, fuel, water</span>
+              <span data-lang-cn>牵引车、餐车、加油、供水</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Аэродромные тягачи (лёгкие, средние, тяжёлые)</span><span data-lang-en>Aircraft tow tractors (light, medium, heavy)</span><span data-lang-cn>飞机牵引车（轻型、中型、重型）</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Багажные тягачи (дизельные, электрические)</span><span data-lang-en>Baggage tractors (diesel, electric)</span><span data-lang-cn>行李牵引车（柴油、电动）</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Кейтеринг, деайсинг, ГСМ, вода, ассенизация</span><span data-lang-en>Catering, de-icing, fuel, water, lavatory</span><span data-lang-cn>餐食、除冰、燃油、供水、污水</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>GPU, газозаправщики</span><span data-lang-en>GPU, gas refueling</span><span data-lang-cn>地面电源、气体加注</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Подробнее</span><span data-lang-en>View details</span><span data-lang-cn>查看详情</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- C. Cargo Handling -->
+      <div class="cat-card fade-up" data-category="cargo" onclick="openCategoryModal('cargo')">
+        <div class="cat-card-header">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="20" width="28" height="18" rx="3"/>
+            <line x1="32" y1="28" x2="44" y2="18"/><line x1="32" y1="34" x2="44" y2="24"/>
+            <line x1="44" y1="18" x2="44" y2="24"/>
+            <circle cx="10" cy="42" r="3"/><circle cx="26" cy="42" r="3"/>
+            <rect x="8" y="24" width="8" height="8" rx="1"/>
+            <rect x="18" y="24" width="8" height="8" rx="1"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Обработка грузов</span>
+              <span data-lang-en>Cargo Handling</span>
+              <span data-lang-cn>货物处理</span>
+            </h3>
+            <span>
+              <span data-lang-ru>Лоадеры, погрузчики, тележки</span>
+              <span data-lang-en>Loaders, belt loaders, carts</span>
+              <span data-lang-cn>装载机、皮带装载机、拖车</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Контейнерные/паллетные лоадеры</span><span data-lang-en>Container/pallet loaders</span><span data-lang-cn>集装箱/托盘装载机</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Ленточные погрузчики (самоходные, буксируемые)</span><span data-lang-en>Belt loaders (self-propelled, towed)</span><span data-lang-cn>皮带装载机（自行式、牵引式）</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Багажные тележки</span><span data-lang-en>Baggage carts</span><span data-lang-cn>行李拖车</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Подробнее</span><span data-lang-en>View details</span><span data-lang-cn>查看详情</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- D. Airfield Maintenance -->
+      <div class="cat-card fade-up" data-category="airfield" onclick="openCategoryModal('airfield')">
+        <div class="cat-card-header">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="22" width="36" height="16" rx="4"/>
+            <circle cx="14" cy="42" r="3"/><circle cx="34" cy="42" r="3"/>
+            <path d="M10 22V16c0-2 1-3 3-3h22c2 0 3 1 3 3v6"/>
+            <line x1="14" y1="18" x2="34" y2="18"/>
+            <path d="M6 32h36"/>
+            <!-- Brush bristles -->
+            <line x1="10" y1="38" x2="10" y2="42"/><line x1="14" y1="38" x2="14" y2="42"/><line x1="18" y1="38" x2="18" y2="42"/><line x1="22" y1="38" x2="22" y2="42"/>
+            <line x1="26" y1="38" x2="26" y2="42"/><line x1="30" y1="38" x2="30" y2="42"/><line x1="34" y1="38" x2="34" y2="42"/><line x1="38" y1="38" x2="38" y2="42"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Содержание аэродрома</span>
+              <span data-lang-en>Airfield Maintenance</span>
+              <span data-lang-cn>机场维护</span>
+            </h3>
+            <span>
+              <span data-lang-ru>Уборка, снег, реагенты</span>
+              <span data-lang-en>Sweepers, snow, reagents</span>
+              <span data-lang-cn>清扫、除雪、融雪剂</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Щёточно-продувочные машины</span><span data-lang-en>Sweeper-blower machines</span><span data-lang-cn>刷吹一体机</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Снегоуборочная техника</span><span data-lang-en>Snow removal equipment</span><span data-lang-cn>除雪设备</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Вакуумно-подметальные, распределители</span><span data-lang-en>Vacuum sweepers, reagent distributors</span><span data-lang-cn>真空清扫机、融雪剂分配器</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Многофункциональные машины</span><span data-lang-en>Multifunctional vehicles</span><span data-lang-cn>多功能车辆</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Подробнее</span><span data-lang-en>View details</span><span data-lang-cn>查看详情</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- E. Auxiliary Equipment -->
+      <div class="cat-card fade-up" data-category="auxiliary" onclick="openCategoryModal('auxiliary')">
+        <div class="cat-card-header">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="14" width="32" height="24" rx="4"/>
+            <circle cx="16" cy="42" r="3"/><circle cx="32" cy="42" r="3"/>
+            <path d="M14 14V8h20v6"/>
+            <line x1="24" y1="22" x2="24" y2="30"/>
+            <line x1="20" y1="26" x2="28" y2="26"/>
+            <path d="M8 20h32"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Вспомогательное оборудование</span>
+              <span data-lang-en>Auxiliary Equipment</span>
+              <span data-lang-cn>辅助设备</span>
+            </h3>
+            <span>
+              <span data-lang-ru>Мусоровозы, УВЗ, зарядные</span>
+              <span data-lang-en>Garbage trucks, chargers</span>
+              <span data-lang-cn>垃圾车、充电设备</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Мусоровозы (DH-LJ15E)</span><span data-lang-en>Garbage trucks (DH-LJ15E)</span><span data-lang-cn>垃圾车 (DH-LJ15E)</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Универсальные вспомогательные машины</span><span data-lang-en>Universal auxiliary vehicles</span><span data-lang-cn>通用辅助车辆</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Зарядные устройства для электротехники</span><span data-lang-en>Chargers for electric equipment</span><span data-lang-cn>电动设备充电器</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Подробнее</span><span data-lang-en>View details</span><span data-lang-cn>查看详情</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- F. Spare Parts -->
+      <div class="cat-card fade-up" data-category="parts" onclick="openCategoryModal('parts')">
+        <div class="cat-card-header" style="background:var(--accent)">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4"/>
+            <path d="M24 4v6M24 38v6M4 24h6M38 24h6"/>
+            <path d="M9.86 9.86l4.24 4.24M33.9 33.9l4.24 4.24M9.86 38.14l4.24-4.24M33.9 14.1l4.24-4.24"/>
+          </svg>
+          <div>
+            <h3>
+              <span data-lang-ru>Запасные части</span>
+              <span data-lang-en>Spare Parts</span>
+              <span data-lang-cn>备件</span>
+            </h3>
+            <span>
+              <span data-lang-ru>10 000+ наименований на складе</span>
+              <span data-lang-en>10,000+ items in stock</span>
+              <span data-lang-cn>库存10,000+种零件</span>
+            </span>
+          </div>
+        </div>
+        <div class="cat-card-body">
+          <ul>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Оригинальные запчасти для всех моделей техники</span><span data-lang-en>Original spare parts for all equipment models</span><span data-lang-cn>所有设备型号的原装备件</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Расходные материалы и комплектующие</span><span data-lang-en>Consumables and components</span><span data-lang-cn>消耗品和零部件</span></li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+              <span data-lang-ru>Экспресс-доставка по России</span><span data-lang-en>Express delivery across Russia</span><span data-lang-cn>俄罗斯全境快递配送</span></li>
+          </ul>
+        </div>
+        <div class="cat-card-footer">
+          <button><span data-lang-ru>Запросить</span><span data-lang-en>Inquire</span><span data-lang-cn>咨询</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8h12M10 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATEGORY MODAL (filled by JS) ===== -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('categoryModal')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg>
+    </button>
+    <div class="modal-header" id="catModalHeader">
+      <svg id="catModalIcon" viewBox="0 0 80 80"></svg>
+      <div>
+        <h3 id="catModalTitle"></h3>
+        <span id="catModalSub"></span>
+      </div>
+    </div>
+    <div class="modal-body" id="catModalBody"></div>
+  </div>
+</div>
+
+<!-- ===== PRODUCT DETAIL MODAL ===== -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal detail-modal">
+    <button class="modal-close" onclick="closeModal('productModal')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg>
+    </button>
+    <div class="modal-header" id="prodModalHeader">
+      <svg id="prodModalIcon" viewBox="0 0 80 80"></svg>
+      <div>
+        <h3 id="prodModalTitle"></h3>
+        <span id="prodModalSub"></span>
+      </div>
+    </div>
+    <div class="detail-top">
+      <div class="detail-illustration" id="prodIllustration">
+        <svg id="prodDetailSvg" viewBox="0 0 180 140"></svg>
+      </div>
+      <div class="detail-info" id="prodDetailInfo">
+        <h4 id="prodDetailName"></h4>
+        <div class="detail-model" id="prodDetailModel"></div>
+        <p id="prodDetailDesc"></p>
+      </div>
+    </div>
+    <div id="prodSpecsWrap" style="padding:0 32px 16px">
+      <table class="specs-table" id="prodSpecsTable"><tbody></tbody></table>
+    </div>
+    <div class="detail-cta">
+      <a href="#quote" class="btn-primary" onclick="closeModal('productModal')">
+        <span data-lang-ru>Запросить цену</span><span data-lang-en>Request Price</span><span data-lang-cn>询价</span>
+      </a>
+      <button class="btn-secondary" onclick="closeModal('productModal')">
+        <span data-lang-ru>Закрыть</span><span data-lang-en>Close</span><span data-lang-cn>关闭</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section class="about section-padding" id="about">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label">
+        <span data-lang-ru>О КОМПАНИИ</span><span data-lang-en>ABOUT US</span><span data-lang-cn>关于我们</span>
+      </div>
+      <h2>
+        <span data-lang-ru>ООО «САНФОРС»</span><span data-lang-en>SanForce LLC</span><span data-lang-cn>SanForce 有限公司</span>
+      </h2>
+    </div>
+
+    <div class="about-content fade-up">
+      <div class="about-text">
+        <h3>
+          <span data-lang-ru>Эксперт в области аэродромной спецтехники</span>
+          <span data-lang-en>Experts in Airport Ground Support Equipment</span>
+          <span data-lang-cn>机场地面保障设备专家</span>
+        </h3>
+        <p>
+          <span data-lang-ru>SanForce — российская компания, специализирующаяся на поставках и комплексном обслуживании китайской аэродромной техники. Мы обеспечиваем полный цикл — от подбора и поставки оборудования до гарантийного и постгарантийного сервиса, включая оперативные поставки запасных частей.</span>
+          <span data-lang-en>SanForce is a Russian company specializing in the supply and comprehensive servicing of Chinese airport ground support equipment. We provide a full cycle — from selection and delivery of equipment to warranty and post-warranty service, including expedited spare parts delivery.</span>
+          <span data-lang-cn>SanForce是一家专门从事中国机场地面保障设备供应和综合服务的俄罗斯公司。我们提供全周期服务——从设备选择和交付到保修和保后服务，包括快速备件配送。</span>
+        </p>
+        <p>
+          <span data-lang-ru>Являясь официальным представителем ведущих китайских производителей, таких как SHAGE (Hubei Donghan Special Automobile), TIEC и GRiQUiP, мы предлагаем технику, сертифицированную для работы на российских аэродромах, с полной локализацией сервиса и документации.</span>
+          <span data-lang-en>As an official representative of leading Chinese manufacturers such as SHAGE (Hubei Donghan Special Automobile), TIEC and GRiQUiP, we offer equipment certified for operation at Russian airfields, with full localization of service and documentation.</span>
+          <span data-lang-cn>作为SHAGE（湖北东汉专用汽车）、TIEC和GRiQUiP等领先中国制造商的官方代表，我们提供经认证可在俄罗斯机场运营的设备，并提供完整的本地化服务和文档。</span>
+        </p>
+      </div>
+      <div class="about-illustration">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stylized airport map/layout -->
+          <rect x="20" y="20" width="360" height="260" rx="16" fill="#f0f4f8" stroke="#cbd5e1" stroke-width="1"/>
+          <!-- Runway -->
+          <rect x="40" y="130" width="320" height="30" rx="4" fill="#0c3d5e" opacity=".15"/>
+          <line x1="60" y1="145" x2="80" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="100" y1="145" x2="120" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="140" y1="145" x2="160" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="180" y1="145" x2="200" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="220" y1="145" x2="240" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="260" y1="145" x2="280" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <line x1="300" y1="145" x2="320" y2="145" stroke="white" stroke-width="2" stroke-dasharray="8 6"/>
+          <!-- Terminal -->
+          <rect x="100" y="180" width="200" height="60" rx="8" fill="#0c3d5e" opacity=".2"/>
+          <rect x="120" y="190" width="30" height="20" rx="3" fill="#0c3d5e" opacity=".15"/>
+          <rect x="160" y="190" width="30" height="20" rx="3" fill="#0c3d5e" opacity=".15"/>
+          <rect x="200" y="190" width="30" height="20" rx="3" fill="#0c3d5e" opacity=".15"/>
+          <rect x="240" y="190" width="30" height="20" rx="3" fill="#0c3d5e" opacity=".15"/>
+          <!-- Aircraft positions -->
+          <circle cx="135" cy="110" r="4" fill="#dc2626" opacity=".6"/>
+          <circle cx="200" cy="110" r="4" fill="#dc2626" opacity=".6"/>
+          <circle cx="265" cy="110" r="4" fill="#dc2626" opacity=".6"/>
+          <!-- Connection lines -->
+          <line x1="135" y1="114" x2="135" y2="180" stroke="#dc2626" stroke-width="1" opacity=".3" stroke-dasharray="3 3"/>
+          <line x1="200" y1="114" x2="200" y2="180" stroke="#dc2626" stroke-width="1" opacity=".3" stroke-dasharray="3 3"/>
+          <line x1="265" y1="114" x2="265" y2="180" stroke="#dc2626" stroke-width="1" opacity=".3" stroke-dasharray="3 3"/>
+          <!-- Russia map hint -->
+          <path d="M60 50 Q100 40 140 50 Q180 55 220 45 Q260 38 300 48 Q340 55 350 50" stroke="#0c3d5e" stroke-width="1.5" fill="none" opacity=".2"/>
+          <!-- Region dots -->
+          <circle cx="80" cy="60" r="3" fill="#0c3d5e" opacity=".3"/>
+          <circle cx="140" cy="55" r="3" fill="#0c3d5e" opacity=".3"/>
+          <circle cx="200" cy="50" r="5" fill="#dc2626" opacity=".5"/>
+          <circle cx="260" cy="48" r="3" fill="#0c3d5e" opacity=".3"/>
+          <circle cx="320" cy="55" r="3" fill="#0c3d5e" opacity=".3"/>
+          <text x="200" y="75" font-family="sans-serif" font-size="10" fill="#0c3d5e" text-anchor="middle" font-weight="700" opacity=".4">МОСКВА</text>
+          <!-- Stats badges -->
+          <rect x="40" y="250" width="60" height="20" rx="10" fill="#dc2626" opacity=".15"/>
+          <text x="70" y="264" font-family="sans-serif" font-size="8" fill="#dc2626" text-anchor="middle" font-weight="700">7+ регионов</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-count="150">0</div>
+        <div class="stat-label">
+          <span data-lang-ru>поставок оборудования</span><span data-lang-en>equipment deliveries</span><span data-lang-cn>设备交付</span>
+        </div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-count="40">0</div>
+        <div class="stat-label">
+          <span data-lang-ru>единиц техники</span><span data-lang-en>equipment units</span><span data-lang-cn>设备单元</span>
+        </div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-count="10000" data-suffix="+">0</div>
+        <div class="stat-label">
+          <span data-lang-ru>запасных частей</span><span data-lang-en>spare parts</span><span data-lang-cn>备件</span>
+        </div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-static="24/7/365">24/7/365</div>
+        <div class="stat-label">
+          <span data-lang-ru>сервисная поддержка</span><span data-lang-en>service support</span><span data-lang-cn>服务支持</span>
+        </div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-count="7">0</div>
+        <div class="stat-label">
+          <span data-lang-ru>регионов обслуживания</span><span data-lang-en>service regions</span><span data-lang-cn>服务区域</span>
+        </div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-number" data-count="95" data-suffix="%">0</div>
+        <div class="stat-label">
+          <span data-lang-ru>повторных клиентов</span><span data-lang-en>repeat customers</span><span data-lang-cn>回头客</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="services section-padding" id="services">
+  <div class="container">
+    <div class="section-header light fade-up">
+      <div class="label">
+        <span data-lang-ru>УСЛУГИ</span><span data-lang-en>SERVICES</span><span data-lang-cn>服务</span>
+      </div>
+      <h2>
+        <span data-lang-ru>Комплексный сервис</span><span data-lang-en>Comprehensive Service</span><span data-lang-cn>综合服务</span>
+      </h2>
+      <p>
+        <span data-lang-ru>Полный спектр услуг по обслуживанию и ремонту аэродромной спецтехники</span>
+        <span data-lang-en>Full range of airport ground support equipment maintenance and repair services</span>
+        <span data-lang-cn>机场地面保障设备维护和维修的全方位服务</span>
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Service 1: Repair -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M28 4L18 14l4 4-8 8-6-6L2 26l20 20 6-6-6-6 8-8 4 4L44 20"/>
+          <circle cx="37" cy="11" r="7" stroke-dasharray="3 2"/>
+        </svg>
+        <h3><span data-lang-ru>Ремонт спецтехники</span><span data-lang-en>Equipment Repair</span><span data-lang-cn>设备维修</span></h3>
+        <p><span data-lang-ru>Полный цикл ремонтных работ любой сложности — от текущего до капитального ремонта аэродромной техники всех типов и моделей.</span>
+        <span data-lang-en>Full cycle of repair work of any complexity — from routine to major overhaul of all types and models of airport ground equipment.</span>
+        <span data-lang-cn>全周期任何复杂程度的维修工作——从日常维护到各类型号机场地面设备的大修。</span></p>
+      </div>
+      <!-- Service 2: Manufacturing -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="20" width="40" height="24" rx="4"/><path d="M12 20V10h10v10"/><path d="M26 20V14h10v6"/>
+          <circle cx="16" cy="32" r="4"/><circle cx="32" cy="32" r="4"/>
+          <line x1="20" y1="32" x2="28" y2="32"/>
+        </svg>
+        <h3><span data-lang-ru>Изготовление и восстановление узлов</span><span data-lang-en>Parts Manufacturing & Restoration</span><span data-lang-cn>零部件制造与修复</span></h3>
+        <p><span data-lang-ru>Производство и восстановление деталей, узлов и агрегатов на собственных мощностях с контролем качества на каждом этапе.</span>
+        <span data-lang-en>Production and restoration of parts, assemblies and units in our own facilities with quality control at every stage.</span>
+        <span data-lang-cn>在自有设施中生产和修复零部件和组件，每个环节均有质量控制。</span></p>
+      </div>
+      <!-- Service 3: Modernization -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 40V20l10-10h20l10 10v20"/><path d="M14 40V28h20v12"/>
+          <line x1="24" y1="28" x2="24" y2="18"/>
+          <path d="M18 22l6-6 6 6"/>
+        </svg>
+        <h3><span data-lang-ru>Модернизация и дооснащение</span><span data-lang-en>Modernization & Retrofitting</span><span data-lang-cn>现代化改造</span></h3>
+        <p><span data-lang-ru>Обновление систем управления, установка дополнительного оборудования, адаптация техники под конкретные требования заказчика и аэродрома.</span>
+        <span data-lang-en>Updating control systems, installing additional equipment, adapting machinery to specific customer and airfield requirements.</span>
+        <span data-lang-cn>更新控制系统、安装附加设备、根据客户和机场的特定要求调整设备。</span></p>
+      </div>
+      <!-- Service 4: Contract Maintenance -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="4" width="32" height="40" rx="4"/><line x1="16" y1="14" x2="32" y2="14"/>
+          <line x1="16" y1="22" x2="32" y2="22"/><line x1="16" y1="30" x2="26" y2="30"/>
+          <path d="M30 34l4 4 8-8"/>
+        </svg>
+        <h3><span data-lang-ru>Контрактное ТО</span><span data-lang-en>Contract Maintenance</span><span data-lang-cn>合同维护</span></h3>
+        <p><span data-lang-ru>Долгосрочные контракты на техническое обслуживание с гарантированными сроками выполнения, фиксированной стоимостью и выделенной сервисной бригадой.</span>
+        <span data-lang-en>Long-term maintenance contracts with guaranteed turnaround times, fixed pricing, and dedicated service crews.</span>
+        <span data-lang-cn>长期维护合同，保证周转时间、固定价格和专属服务团队。</span></p>
+      </div>
+      <!-- Service 5: Emergency -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="20"/><path d="M24 12v14l8 6"/>
+          <circle cx="24" cy="24" r="3" fill="currentColor" opacity=".3"/>
+        </svg>
+        <h3><span data-lang-ru>Скорая техпомощь 24/7</span><span data-lang-en>24/7 Emergency Support</span><span data-lang-cn>24/7紧急技术支援</span></h3>
+        <p><span data-lang-ru>Круглосуточный выезд мобильных бригад для экстренного ремонта. Время реагирования — от 2 часов в Московском регионе.</span>
+        <span data-lang-en>Round-the-clock deployment of mobile crews for emergency repairs. Response time — from 2 hours in the Moscow region.</span>
+        <span data-lang-cn>全天候派遣移动维修队进行紧急维修。莫斯科地区响应时间——最快2小时。</span></p>
+      </div>
+      <!-- Service 6: Spare Parts Warehouse -->
+      <div class="service-card fade-up">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="16" width="40" height="28" rx="4"/>
+          <path d="M4 16L24 4l20 12"/>
+          <rect x="12" y="24" width="10" height="10" rx="2"/><rect x="26" y="24" width="10" height="10" rx="2"/>
+          <rect x="18" y="36" width="12" height="8" rx="2"/>
+        </svg>
+        <h3><span data-lang-ru>Склад запасных частей</span><span data-lang-en>Spare Parts Warehouse</span><span data-lang-cn>备件仓库</span></h3>
+        <p><span data-lang-ru>Собственный склад с более чем 10 000 наименований запчастей для оперативных поставок. Экспресс-доставка по всей России.</span>
+        <span data-lang-en>Our own warehouse with over 10,000 part numbers for expedited supplies. Express delivery across Russia.</span>
+        <span data-lang-cn>自有仓库拥有超过10,000种备件，可快速供应。俄罗斯全境快递配送。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLIENTS & PARTNERS ===== -->
+<section class="clients section-padding" id="clients">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label">
+        <span data-lang-ru>КЛИЕНТЫ И ПАРТНЁРЫ</span><span data-lang-en>CLIENTS & PARTNERS</span><span data-lang-cn>客户与合作伙伴</span>
+      </div>
+      <h2>
+        <span data-lang-ru>Нам доверяют</span><span data-lang-en>Trusted By</span><span data-lang-cn>客户信任</span>
+      </h2>
+    </div>
+
+    <div class="clients-section fade-up">
+      <h3>
+        <span data-lang-ru>Авиакомпании и клиенты</span><span data-lang-en>Airlines & Clients</span><span data-lang-cn>航空公司和客户</span>
+      </h3>
+      <div class="clients-logos">
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0c3d5e" stroke-width="2" stroke-linecap="round"><path d="M2 18L12 6l10 12"/><line x1="6" y1="14" x2="18" y2="14"/></svg>
+          Utair
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><text x="12" y="17" font-size="14" font-weight="800" fill="#5ba829" text-anchor="middle">S7</text></svg>
+          S7 Airlines
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0c3d5e" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M6 12h12M12 6v12" stroke-width="1"/></svg>
+          <span data-lang-ru>Россия</span><span data-lang-en>Rossiya</span><span data-lang-cn>俄罗斯航空</span>
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><text x="12" y="16" font-size="8" font-weight="800" fill="#dc2626" text-anchor="middle">ЛУКОЙЛ</text></svg>
+          <span data-lang-ru>Лукойл</span><span data-lang-en>Lukoil</span><span data-lang-cn>卢克石油</span>
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><text x="12" y="16" font-size="7" font-weight="800" fill="#333" text-anchor="middle">LADA</text></svg>
+          LADA
+        </div>
+      </div>
+    </div>
+
+    <div class="clients-section fade-up" id="partners">
+      <h3>
+        <span data-lang-ru>Производители-партнёры (Китай)</span><span data-lang-en>Manufacturing Partners (China)</span><span data-lang-cn>制造合作伙伴（中国）</span>
+      </h3>
+      <div class="clients-logos">
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="12" rx="2" stroke="#0c3d5e" stroke-width="1.5"/><text x="12" y="15" font-size="6" font-weight="800" fill="#0c3d5e" text-anchor="middle">SHAGE</text></svg>
+          SHAGE (Hubei Donghan)
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#dc2626" stroke-width="1.5"/><text x="12" y="15" font-size="6" font-weight="800" fill="#dc2626" text-anchor="middle">天嘉</text></svg>
+          TIEC 天嘉智能
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,12 12,22 2,12" stroke="#0c3d5e" stroke-width="1.5" fill="none"/><text x="12" y="15" font-size="5" font-weight="800" fill="#0c3d5e" text-anchor="middle">GQ</text></svg>
+          GRiQUiP
+        </div>
+        <div class="client-logo">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="18" rx="3" stroke="#64748b" stroke-width="1.5"/><text x="12" y="15" font-size="5" font-weight="800" fill="#64748b" text-anchor="middle">AG</text></svg>
+          AGRiQUiP
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUOTE FORM ===== -->
+<section class="quote section-padding" id="quote">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label">
+        <span data-lang-ru>ЗАЯВКА</span><span data-lang-en>QUOTE</span><span data-lang-cn>报价</span>
+      </div>
+      <h2>
+        <span data-lang-ru>Оставить заявку</span><span data-lang-en>Request a Quote</span><span data-lang-cn>获取报价</span>
+      </h2>
+      <p>
+        <span data-lang-ru>Заполните форму и наш менеджер свяжется с вами в течение рабочего дня</span>
+        <span data-lang-en>Fill out the form and our manager will contact you within a business day</span>
+        <span data-lang-cn>填写表格，我们的经理将在一个工作日内与您联系</span>
+      </p>
+    </div>
+
+    <div class="quote-form-wrapper fade-up">
+      <form onsubmit="event.preventDefault();alert(document.body.classList.contains('lang-en')?'Thank you! We will contact you shortly.':document.body.classList.contains('lang-cn')?'谢谢！我们将尽快与您联系。':'Спасибо! Мы свяжемся с вами в ближайшее время.')">
+        <div class="form-grid">
+          <div class="form-group">
+            <label data-lang-ru>Имя *</label><label data-lang-en>Name *</label><label data-lang-cn>姓名 *</label>
+            <input type="text" required>
+          </div>
+          <div class="form-group">
+            <label data-lang-ru>Компания</label><label data-lang-en>Company</label><label data-lang-cn>公司</label>
+            <input type="text">
+          </div>
+          <div class="form-group">
+            <label data-lang-ru>Телефон *</label><label data-lang-en>Phone *</label><label data-lang-cn>电话 *</label>
+            <input type="tel" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email">
+          </div>
+          <div class="form-group full">
+            <label data-lang-ru>Категория техники</label><label data-lang-en>Equipment Category</label><label data-lang-cn>设备类别</label>
+            <select>
+              <option data-lang-ru>— Выберите категорию —</option><option data-lang-en>— Select category —</option><option data-lang-cn>— 选择类别 —</option>
+              <option data-lang-ru>Обслуживание пассажиров</option><option data-lang-en>Passenger Service</option><option data-lang-cn>旅客服务</option>
+              <option data-lang-ru>Обслуживание воздушных судов</option><option data-lang-en>Aircraft Service</option><option data-lang-cn>飞机维护</option>
+              <option data-lang-ru>Обработка грузов</option><option data-lang-en>Cargo Handling</option><option data-lang-cn>货物处理</option>
+              <option data-lang-ru>Содержание аэродрома</option><option data-lang-en>Airfield Maintenance</option><option data-lang-cn>机场维护</option>
+              <option data-lang-ru>Вспомогательное оборудование</option><option data-lang-en>Auxiliary Equipment</option><option data-lang-cn>辅助设备</option>
+              <option data-lang-ru>Запасные части</option><option data-lang-en>Spare Parts</option><option data-lang-cn>备件</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label data-lang-ru>Сообщение</label><label data-lang-en>Message</label><label data-lang-cn>留言</label>
+            <textarea rows="4"></textarea>
+          </div>
+        </div>
+        <div class="form-submit">
+          <button type="submit">
+            <span data-lang-ru>Отправить заявку</span><span data-lang-en>Submit Request</span><span data-lang-cn>提交申请</span>
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10h12M12 6l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" id="contacts">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:16px;font-size:24px">
+          <svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="36" height="36" rx="8" stroke="#dc2626" stroke-width="2.5" fill="none"/>
+            <path d="M12 28V22L20 18L28 22V28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 12V18" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="10" r="2" fill="#dc2626"/>
+            <path d="M14 14L20 12L26 14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><span class="san">San</span><span class="force">Force</span></span>
+        </div>
+        <p>
+          <span data-lang-ru>Поставка и комплексное обслуживание китайской аэродромной техники в России.</span>
+          <span data-lang-en>Supply and comprehensive servicing of Chinese airport ground support equipment in Russia.</span>
+          <span data-lang-cn>在俄罗斯供应和综合服务中国机场地面保障设备。</span>
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4><span data-lang-ru>Навигация</span><span data-lang-en>Navigation</span><span data-lang-cn>导航</span></h4>
+        <a href="#catalog"><span data-lang-ru>Техника</span><span data-lang-en>Equipment</span><span data-lang-cn>设备</span></a>
+        <a href="#about"><span data-lang-ru>О компании</span><span data-lang-en>About</span><span data-lang-cn>关于我们</span></a>
+        <a href="#services"><span data-lang-ru>Услуги</span><span data-lang-en>Services</span><span data-lang-cn>服务</span></a>
+        <a href="#clients"><span data-lang-ru>Клиенты</span><span data-lang-en>Clients</span><span data-lang-cn>客户</span></a>
+        <a href="#quote"><span data-lang-ru>Заявка</span><span data-lang-en>Quote</span><span data-lang-cn>报价</span></a>
+      </div>
+      <div class="footer-col">
+        <h4><span data-lang-ru>Техника</span><span data-lang-en>Equipment</span><span data-lang-cn>设备</span></h4>
+        <a href="#catalog"><span data-lang-ru>Пассажирские трапы</span><span data-lang-en>Passenger Stairs</span><span data-lang-cn>旅客登机梯</span></a>
+        <a href="#catalog"><span data-lang-ru>Тягачи</span><span data-lang-en>Tractors</span><span data-lang-cn>牵引车</span></a>
+        <a href="#catalog"><span data-lang-ru>Погрузчики</span><span data-lang-en>Loaders</span><span data-lang-cn>装载机</span></a>
+        <a href="#catalog"><span data-lang-ru>Запасные части</span><span data-lang-en>Spare Parts</span><span data-lang-cn>备件</span></a>
+      </div>
+      <div class="footer-col">
+        <h4><span data-lang-ru>Контакты</span><span data-lang-en>Contacts</span><span data-lang-cn>联系方式</span></h4>
+        <div class="contact-item">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 3h12a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M1 5l8 5 8-5"/></svg>
+          <a href="mailto:sunforce.gse@yahoo.com">sunforce.gse@yahoo.com</a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 1H7a2 2 0 00-2 2v12a2 2 0 002 2h4a2 2 0 002-2V3a2 2 0 00-2-2z"/><line x1="9" y1="14" x2="9" y2="14.01"/></svg>
+          <a href="tel:+74952874403">+7 (495) 287-44-03</a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 7c0 5-6 10-6 10S3 12 3 7a6 6 0 1112 0z"/><circle cx="9" cy="7" r="2"/></svg>
+          <span>
+            <span data-lang-ru>125212, Москва, Головинское шоссе д.8, корпус 2А, помещение 1/1</span>
+            <span data-lang-en>125212, Moscow, Golovinskoye Shosse 8, Bldg 2A, Office 1/1</span>
+            <span data-lang-cn>125212，莫斯科，戈洛温斯科耶大道8号，2A楼，1/1室</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 ООО «САНФОРС» (SanForce LLC). <span data-lang-ru>Все права защищены.</span><span data-lang-en>All rights reserved.</span><span data-lang-cn>版权所有。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== PRODUCT DATA ===== */
+const LANG = {ru:0,en:1,cn:2};
+let currentLang = 'ru';
+
+const categoryData = {
+  passenger: {
+    title: ['Обслуживание пассажиров','Passenger Service','旅客服务'],
+    sub: ['Трапы, автобусы, амбулифты','Stairs, buses, ambulifts','登机梯、巴士、救护升降机'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="46" width="36" height="20" rx="5"/><circle cx="18" cy="70" r="5"/><circle cx="38" cy="70" r="5"/><line x1="44" y1="46" x2="68" y2="14"/><line x1="44" y1="56" x2="62" y2="14"/><rect x="60" y="6" width="14" height="10" rx="2"/><line x1="48" y1="40" x2="64" y2="40"/><line x1="50" y1="34" x2="65" y2="34"/><line x1="52" y1="28" x2="66" y2="28"/><line x1="54" y1="22" x2="67" y2="22"/></svg>`,
+    products: [
+      {name:['SHAGE DH-KT48E','SHAGE DH-KT48E','SHAGE DH-KT48E'],model:['Электрический, самоходный','Electric, self-propelled','电动自行式'],type:'stairs',
+        desc:['Электрический самоходный пассажирский трап с регулируемой высотой для обслуживания всех типов воздушных судов.','Electric self-propelled passenger stairs with adjustable height for servicing all aircraft types.','电动自行式可调高度旅客登机梯，适用于所有机型。'],
+        specs:[['Высота','Height','高度','2000–4800 мм'],['Запас хода','Range','续航里程','130 км'],['Масса','Weight','重量','6900 кг'],['Батарея','Battery','电池','CATL 70.47 кВт·ч'],['Тип привода','Drive','驱动方式','Электрический / Electric / 电动']]},
+      {name:['SHAGE QJY-PS580','SHAGE QJY-PS580','SHAGE QJY-PS580'],model:['Самоходный трап','Self-propelled stairs','自行式登机梯'],type:'stairs',
+        desc:['Самоходный пассажирский трап повышенной грузоподъёмности для широкофюзеляжных ВС.','Self-propelled passenger stairs with increased load capacity for wide-body aircraft.','大承载力自行式旅客登机梯，适用于宽体飞机。'],
+        specs:[['Высота','Height','高度','2000–5800 мм'],['Грузоподъёмность','Capacity','承载能力','3000 кг'],['Тип','Type','类型','Самоходный / Self-propelled / 自行式']]},
+      {name:['Буксируемые трапы','Towed Stairs','牵引式登机梯'],model:['Различные модели','Various models','各种型号'],type:'stairs',
+        desc:['Линейка буксируемых трапов различной высоты для обслуживания региональных и узкофюзеляжных ВС.','Range of towed stairs of various heights for servicing regional and narrow-body aircraft.','各种高度的牵引式登机梯，适用于支线和窄体飞机。'],
+        specs:[['Тип','Type','类型','Буксируемый / Towed / 牵引式'],['Высота','Height','高度','2000–4000 мм']]},
+      {name:['Перронные автобусы (дизель)','Apron Buses (Diesel)','停机坪巴士（柴油）'],model:['Дизельные модели','Diesel models','柴油型号'],type:'bus',
+        desc:['Дизельные перронные автобусы большой вместимости для перевозки пассажиров по территории аэропорта.','Diesel apron buses with high capacity for transporting passengers around the airport.','大容量柴油停机坪巴士，用于机场区域内旅客运输。'],
+        specs:[['Вместимость','Capacity','载客量','77–120 чел.'],['Двигатель','Engine','发动机','Дизельный / Diesel / 柴油']]},
+      {name:['Перронные автобусы (электро)','Apron Buses (Electric)','停机坪巴士（电动）'],model:['Электрические модели','Electric models','电动型号'],type:'bus',
+        desc:['Электрические перронные автобусы — экологичное решение для аэропортов с нулевыми выбросами.','Electric apron buses — zero-emission eco-friendly solution for airports.','电动停机坪巴士——零排放环保机场解决方案。'],
+        specs:[['Вместимость','Capacity','载客量','77–110 чел.'],['Привод','Drive','驱动','Электрический / Electric / 电动'],['Запас хода','Range','续航','120+ км']]},
+      {name:['Амбулифты','Ambulifts','救护升降机'],model:['Для маломобильных пассажиров','For passengers with reduced mobility','为行动不便旅客设计'],type:'ambulift',
+        desc:['Специализированные подъёмники для посадки/высадки маломобильных пассажиров с любых типов ВС.','Specialized lifts for boarding/deboarding passengers with reduced mobility from any aircraft type.','专用升降机，用于各类飞机行动不便旅客的登机和下机。'],
+        specs:[['Грузоподъёмность','Capacity','承载能力','300 кг'],['Высота подъёма','Lift height','升降高度','1500–5500 мм']]}
+    ]
+  },
+  aircraft: {
+    title: ['Обслуживание воздушных судов','Aircraft Service','飞机维护'],
+    sub: ['Тягачи, кейтеринг, топливо, вода','Tractors, catering, fuel, water','牵引车、餐车、燃油、供水'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="60" r="10"/><circle cx="40" cy="60" r="4"/><rect x="12" y="36" width="56" height="20" rx="6"/><path d="M24 36V26a16 16 0 0132 0v10"/><line x1="40" y1="14" x2="40" y2="8"/><line x1="32" y1="16" x2="28" y2="10"/><line x1="48" y1="16" x2="52" y2="10"/></svg>`,
+    products: [
+      {name:['SHAGE TD-120','SHAGE TD-120','SHAGE TD-120'],model:['Лёгкий аэродромный тягач','Light aircraft tow tractor','轻型飞机牵引车'],type:'tractor',
+        desc:['Лёгкий безводильный тягач для буксировки региональных ВС массой до 120 тонн.','Light towbarless tractor for towing regional aircraft up to 120 tons.','轻型无杆牵引车，可牵引120吨以下支线飞机。'],
+        specs:[['Тяговое усилие','Towing capacity','牵引力','120 т'],['Тип','Type','类型','Безводильный / Towbarless / 无杆式']]},
+      {name:['SHAGE QY-27','SHAGE QY-27','SHAGE QY-27'],model:['Средний аэродромный тягач','Medium aircraft tow tractor','中型飞机牵引车'],type:'tractor',
+        desc:['Средний тягач для буксировки узкофюзеляжных ВС типа Boeing 737, Airbus A320.','Medium tractor for towing narrow-body aircraft like Boeing 737, Airbus A320.','中型牵引车，可牵引波音737、空客A320等窄体飞机。'],
+        specs:[['Тяговое усилие','Towing capacity','牵引力','270 кН'],['Совместимость','Compatibility','兼容性','B737 / A320']]},
+      {name:['SHAGE WGX-45QY','SHAGE WGX-45QY','SHAGE WGX-45QY'],model:['Тяжёлый аэродромный тягач','Heavy aircraft tow tractor','重型飞机牵引车'],type:'tractor',
+        desc:['Тяжёлый тягач для буксировки широкофюзеляжных ВС, включая Boeing 777, Airbus A330/A340.','Heavy tractor for towing wide-body aircraft, including Boeing 777, Airbus A330/A340.','重型牵引车，可牵引波音777、空客A330/A340等宽体飞机。'],
+        specs:[['Тяговое усилие','Towing capacity','牵引力','450 кН'],['Совместимость','Compatibility','兼容性','B777 / A330 / A340']]},
+      {name:['SHAGE QCD-25','SHAGE QCD-25','SHAGE QCD-25'],model:['Дизельный багажный тягач','Diesel baggage tractor','柴油行李牵引车'],type:'tractor',
+        desc:['Надёжный дизельный тягач для буксировки багажных и грузовых тележек по перрону.','Reliable diesel tractor for towing baggage and cargo carts on the apron.','可靠的柴油牵引车，用于停机坪行李和货物拖车牵引。'],
+        specs:[['Тяговое усилие','Towing capacity','牵引力','25 кН'],['Двигатель','Engine','发动机','Дизельный / Diesel / 柴油']]},
+      {name:['SHAGE DHEQY30E','SHAGE DHEQY30E','SHAGE DHEQY30E'],model:['Электрический багажный тягач','Electric baggage tractor','电动行李牵引车'],type:'tractor',
+        desc:['Электрический багажный тягач с нулевыми выбросами для экологичной эксплуатации.','Electric baggage tractor with zero emissions for eco-friendly operation.','零排放电动行李牵引车，用于环保运营。'],
+        specs:[['Тяговое усилие','Towing capacity','牵引力','30 кН'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['DH-SP60E','DH-SP60E','DH-SP60E'],model:['Кейтеринговый лифт','Catering truck','餐食提升车'],type:'catering',
+        desc:['Электрический кейтеринговый подъёмник для погрузки бортового питания.','Electric catering lift for loading in-flight meals.','电动餐食提升车，用于装载机上餐食。'],
+        specs:[['Грузоподъёмность','Capacity','承载能力','6000 кг'],['Высота подъёма','Lift height','升降高度','до 6000 мм'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['DHEDE82-EA','DHEDE82-EA','DHEDE82-EA'],model:['Противообледенительная машина','De-icing vehicle','除冰车'],type:'deicer',
+        desc:['Машина для обработки ВС противообледенительной жидкостью. Высокая производительность распыления.','Aircraft de-icing vehicle with high spraying performance.','飞机除冰车，喷洒性能强劲。'],
+        specs:[['Ёмкость бака','Tank capacity','罐体容量','8200 л'],['Тип жидкости','Fluid type','液体类型','Тип I, IV'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['DH-QS50E','DH-QS50E','DH-QS50E'],model:['Водозаправочная машина','Water service truck','供水车'],type:'water',
+        desc:['Электрическая водозаправочная машина для заправки ВС питьевой водой.','Electric water service truck for supplying drinking water to aircraft.','电动供水车，用于为飞机加注饮用水。'],
+        specs:[['Ёмкость','Volume','容量','5000 л'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['DH-WS50E','DH-WS50E','DH-WS50E'],model:['Ассенизационная машина','Lavatory truck','污水处理车'],type:'lavatory',
+        desc:['Электрическая ассенизационная машина для обслуживания туалетных систем ВС.','Electric lavatory service truck for aircraft toilet system maintenance.','电动污水处理车，用于飞机卫生间系统维护。'],
+        specs:[['Ёмкость','Volume','容量','5000 л'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['Топливозаправщики','Fuel Trucks','加油车'],model:['Различные модели','Various models','各种型号'],type:'fuel',
+        desc:['Линейка аэродромных топливозаправщиков различной ёмкости.','Range of airfield fuel trucks of various capacities.','各种容量的机场加油车系列。'],
+        specs:[['Ёмкость','Volume','容量','10 000–60 000 л']]},
+      {name:['Газозаправщики','Gas Refueling Units','气体加注车'],model:['Спецтехника','Specialized','专用设备'],type:'fuel',
+        desc:['Машины для заправки ВС газами (азот, кислород).','Vehicles for supplying aircraft with gases (nitrogen, oxygen).','用于为飞机加注气体（氮气、氧气）的车辆。'],
+        specs:[['Тип газа','Gas type','气体类型','N₂, O₂']]},
+      {name:['GPU','Ground Power Units','地面电源设备'],model:['Наземные источники электропитания','Ground power units','地面电源'],type:'gpu',
+        desc:['Наземные источники электропитания для обеспечения энергоснабжения ВС на стоянке.','Ground power units for providing electrical supply to aircraft at the gate.','地面电源设备，为停场飞机提供电力。'],
+        specs:[['Мощность','Power','功率','90–180 кВА'],['Выход','Output','输出','28.5V DC / 115V 400Hz AC']]}
+    ]
+  },
+  cargo: {
+    title: ['Обработка грузов','Cargo Handling','货物处理'],
+    sub: ['Лоадеры, погрузчики, тележки','Loaders, belt loaders, carts','装载机、皮带装载机、拖车'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="30" width="48" height="28" rx="5"/><line x1="54" y1="42" x2="74" y2="28"/><line x1="54" y1="52" x2="74" y2="38"/><line x1="74" y1="28" x2="74" y2="38"/><circle cx="16" cy="64" r="5"/><circle cx="44" cy="64" r="5"/><rect x="12" y="36" width="14" height="12" rx="2"/><rect x="30" y="36" width="14" height="12" rx="2"/></svg>`,
+    products: [
+      {name:['DHEJZ15EA','DHEJZ15EA','DHEJZ15EA'],model:['Контейнерный лоадер (15т)','Container loader (15t)','集装箱装载机 (15吨)'],type:'loader',
+        desc:['Электрический контейнерный лоадер грузоподъёмностью 15 тонн для широкофюзеляжных ВС.','Electric container loader with 15-ton capacity for wide-body aircraft.','15吨电动集装箱装载机，适用于宽体飞机。'],
+        specs:[['Грузоподъёмность','Capacity','承载能力','15 000 кг'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['DHEJZ7EA','DHEJZ7EA','DHEJZ7EA'],model:['Контейнерный лоадер (7т)','Container loader (7t)','集装箱装载机 (7吨)'],type:'loader',
+        desc:['Компактный электрический контейнерный лоадер грузоподъёмностью 7 тонн.','Compact electric container loader with 7-ton capacity.','7吨紧凑型电动集装箱装载机。'],
+        specs:[['Грузоподъёмность','Capacity','承载能力','7000 кг'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['SHAGE BL-80','SHAGE BL-80','SHAGE BL-80'],model:['Самоходный ленточный погрузчик','Self-propelled belt loader','自行式皮带装载机'],type:'belt',
+        desc:['Самоходный ленточный погрузчик для загрузки/выгрузки багажа и грузов.','Self-propelled belt loader for loading/unloading baggage and cargo.','自行式皮带装载机，用于行李和货物装卸。'],
+        specs:[['Ширина ленты','Belt width','皮带宽度','800 мм'],['Тип','Type','类型','Самоходный / Self-propelled / 自行式']]},
+      {name:['DH-BL80E','DH-BL80E','DH-BL80E'],model:['Электрический ленточный погрузчик','Electric belt loader','电动皮带装载机'],type:'belt',
+        desc:['Электрический самоходный ленточный погрузчик с нулевыми выбросами.','Electric self-propelled belt loader with zero emissions.','零排放电动自行式皮带装载机。'],
+        specs:[['Ширина ленты','Belt width','皮带宽度','800 мм'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['Буксируемые ленточные','Towed Belt Loaders','牵引式皮带装载机'],model:['Бюджетное решение','Budget solution','经济型方案'],type:'belt',
+        desc:['Буксируемые ленточные погрузчики — экономичное решение для небольших аэропортов.','Towed belt loaders — economical solution for smaller airports.','牵引式皮带装载机——中小型机场的经济型解决方案。'],
+        specs:[['Тип','Type','类型','Буксируемый / Towed / 牵引式']]},
+      {name:['Багажные тележки','Baggage Carts','行李拖车'],model:['Различные модификации','Various modifications','各种改型'],type:'cart',
+        desc:['Багажные и грузовые тележки для перевозки по перрону.','Baggage and cargo carts for apron transportation.','用于停机坪运输的行李和货物拖车。'],
+        specs:[['Грузоподъёмность','Capacity','承载能力','1500–3000 кг']]}
+    ]
+  },
+  airfield: {
+    title: ['Содержание аэродрома','Airfield Maintenance','机场维护'],
+    sub: ['Уборка, снег, реагенты','Sweepers, snow, reagents','清扫、除雪、融雪剂'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="34" width="60" height="24" rx="6"/><circle cx="22" cy="64" r="5"/><circle cx="58" cy="64" r="5"/><path d="M16 34V24c0-3 2-5 5-5h38c3 0 5 2 5 5v10"/><line x1="22" y1="28" x2="58" y2="28"/><path d="M10 48h60"/></svg>`,
+    products: [
+      {name:['Щёточно-продувочные машины','Sweeper-Blower Machines','刷吹一体机'],model:['Для ВПП и рулёжных дорожек','For runways and taxiways','用于跑道和滑行道'],type:'sweeper',
+        desc:['Комбинированные машины для очистки ВПП от мусора, снега и наледи с помощью щёток и воздушной струи.','Combined machines for cleaning runways from debris, snow and ice using brushes and air jets.','组合式清扫机，使用刷子和气流清除跑道上的碎片、积雪和冰层。'],
+        specs:[['Ширина захвата','Working width','作业宽度','3000–5500 мм']]},
+      {name:['Снегоуборочная техника','Snow Removal Equipment','除雪设备'],model:['Снегоочистители и плуги','Snow plows and blowers','铲雪机和吹雪机'],type:'sweeper',
+        desc:['Снегоуборочные машины для поддержания эксплуатационного состояния аэродрома в зимний период.','Snow removal machines for maintaining airfield operational condition during winter.','除雪设备，用于冬季维护机场运营状态。'],
+        specs:[['Сезон','Season','季节','Зима / Winter / 冬季']]},
+      {name:['Вакуумно-подметальные машины','Vacuum Sweepers','真空清扫机'],model:['Для ежедневного содержания','For daily maintenance','用于日常维护'],type:'sweeper',
+        desc:['Машины вакуумного типа для ежедневной уборки покрытий аэродрома.','Vacuum-type machines for daily cleaning of airfield surfaces.','真空式清扫机，用于机场地面的日常清洁。'],
+        specs:[['Тип','Type','类型','Вакуумный / Vacuum / 真空式']]},
+      {name:['Распределители реагентов','Reagent Distributors','融雪剂分配器'],model:['Для зимнего содержания','For winter maintenance','用于冬季维护'],type:'sweeper',
+        desc:['Машины для распределения противогололёдных реагентов на ВПП и рулёжных дорожках.','Machines for distributing anti-icing reagents on runways and taxiways.','用于在跑道和滑行道上分配防冰融雪剂的设备。'],
+        specs:[['Применение','Application','应用','ВПП, РД / Runway, Taxiway / 跑道、滑行道']]},
+      {name:['Сборщики жидкости','Fluid Collectors','液体收集车'],model:['Для удаления жидкости с ВПП','For removing fluids from runways','用于跑道除水'],type:'sweeper',
+        desc:['Машины для сбора жидкости с покрытий аэродрома после дождя или таяния снега.','Machines for collecting fluids from airfield surfaces after rain or snowmelt.','液体收集车，用于雨后或融雪后机场地面除水。'],
+        specs:[]},
+      {name:['Многофункциональные машины','Multifunctional Vehicles','多功能车辆'],model:['Комбинированные решения','Combined solutions','组合解决方案'],type:'sweeper',
+        desc:['Универсальные машины с навесным оборудованием для круглогодичного содержания аэродрома.','Universal vehicles with attachments for year-round airfield maintenance.','配备附件的通用车辆，用于全年机场维护。'],
+        specs:[['Тип','Type','类型','Многофункциональный / Multifunctional / 多功能']]}
+    ]
+  },
+  auxiliary: {
+    title: ['Вспомогательное оборудование','Auxiliary Equipment','辅助设备'],
+    sub: ['Мусоровозы, УВЗ, зарядные','Garbage trucks, chargers','垃圾车、充电设备'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="22" width="56" height="36" rx="6"/><circle cx="26" cy="64" r="5"/><circle cx="54" cy="64" r="5"/><path d="M22 22V12h36v10"/><line x1="40" y1="34" x2="40" y2="48"/><line x1="34" y1="41" x2="46" y2="41"/><path d="M12 32h56"/></svg>`,
+    products: [
+      {name:['DH-LJ15E','DH-LJ15E','DH-LJ15E'],model:['Электрический мусоровоз','Electric garbage truck','电动垃圾车'],type:'garbage',
+        desc:['Электрический аэродромный мусоровоз для вывоза твёрдых бытовых отходов.','Electric airfield garbage truck for solid waste removal.','电动机场垃圾车，用于固体废物清运。'],
+        specs:[['Ёмкость','Volume','容量','15 м³'],['Привод','Drive','驱动','Электрический / Electric / 电动']]},
+      {name:['УВЗ','Universal Auxiliary Vehicles','通用辅助车辆'],model:['Универсальные вспомогательные','Universal auxiliary','通用辅助'],type:'garbage',
+        desc:['Универсальные вспомогательные машины для различных задач на перроне.','Universal auxiliary vehicles for various apron tasks.','通用辅助车辆，用于停机坪各种任务。'],
+        specs:[['Тип','Type','类型','Универсальный / Universal / 通用']]},
+      {name:['Зарядные устройства','Chargers','充电设备'],model:['Для электрической техники','For electric equipment','用于电动设备'],type:'charger',
+        desc:['Зарядные станции и устройства для электрической аэродромной техники.','Charging stations and devices for electric airport ground equipment.','电动机场地面设备的充电站和充电装置。'],
+        specs:[['Совместимость','Compatibility','兼容性','Все электро-модели / All electric models / 所有电动型号']]}
+    ]
+  },
+  parts: {
+    title: ['Запасные части','Spare Parts','备件'],
+    sub: ['10 000+ наименований','10,000+ items','10,000+种零件'],
+    icon: `<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="40" r="16"/><circle cx="40" cy="40" r="6"/><path d="M40 6v10M40 64v10M6 40h10M64 40h10"/><path d="M16 16l7 7M57 57l7 7M16 64l7-7M57 23l7-7"/></svg>`,
+    products: [
+      {name:['Оригинальные запчасти','Original Spare Parts','原装备件'],model:['Для всех моделей','For all models','适用所有型号'],type:'gear',
+        desc:['Оригинальные запасные части от производителей SHAGE, TIEC, GRiQUiP для всех моделей аэродромной техники.','Original spare parts from SHAGE, TIEC, GRiQUiP manufacturers for all airport equipment models.','SHAGE、TIEC、GRiQUiP制造商的原装备件，适用于所有机场设备型号。'],
+        specs:[['Наименований','Items','品种','10 000+'],['Доставка','Delivery','配送','Экспресс / Express / 快递'],['Склад','Warehouse','仓库','Москва / Moscow / 莫斯科']]},
+      {name:['Расходные материалы','Consumables','消耗品'],model:['Фильтры, масла, жидкости','Filters, oils, fluids','滤芯、油品、液体'],type:'gear',
+        desc:['Расходные материалы для планового технического обслуживания всех типов техники.','Consumables for scheduled maintenance of all equipment types.','用于各类设备定期维护的消耗品。'],
+        specs:[['Тип','Type','类型','Расходные / Consumables / 消耗品']]},
+      {name:['Комплектующие','Components','零部件'],model:['Узлы и агрегаты','Assemblies and units','组件和总成'],type:'gear',
+        desc:['Готовые узлы и агрегаты для замены при ремонте. Восстановленные компоненты с гарантией.','Ready-made assemblies and units for replacement during repairs. Refurbished components with warranty.','用于维修更换的成品组件和总成。翻新件附带保修。'],
+        specs:[['Гарантия','Warranty','保修','12 мес. / 12 months / 12个月']]}
+    ]
+  }
+};
+
+/* SVG silhouettes by type */
+const typeSVGs = {
+  stairs: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="36" width="30" height="16" rx="3"/><circle cx="12" cy="55" r="3"/><circle cx="28" cy="55" r="3"/><line x1="34" y1="36" x2="60" y2="10"/><line x1="34" y1="44" x2="56" y2="10"/><line x1="38" y1="32" x2="57" y2="32"/><line x1="41" y1="27" x2="58" y2="27"/><line x1="44" y1="22" x2="59" y2="22"/><line x1="47" y1="17" x2="60" y2="17"/><rect x="55" y="6" width="10" height="8" rx="2"/></svg>`,
+  bus: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="16" width="72" height="30" rx="6"/><circle cx="18" cy="50" r="4"/><circle cx="62" cy="50" r="4"/><rect x="10" y="22" width="12" height="14" rx="2"/><rect x="26" y="22" width="12" height="14" rx="2"/><rect x="42" y="22" width="12" height="14" rx="2"/><rect x="58" y="22" width="12" height="14" rx="2"/><line x1="4" y1="40" x2="76" y2="40"/></svg>`,
+  ambulift: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="30" width="30" height="20" rx="4"/><circle cx="16" cy="54" r="3"/><circle cx="32" cy="54" r="3"/><rect x="42" y="10" width="24" height="40" rx="4"/><line x1="42" y1="30" x2="38" y2="30"/><path d="M50 24h8M54 20v8"/></svg>`,
+  tractor: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="20" width="50" height="24" rx="6"/><rect x="10" y="20" width="20" height="18" rx="4"/><circle cx="20" cy="50" r="5"/><circle cx="50" cy="50" r="5"/><rect x="60" y="28" width="14" height="8" rx="2"/><line x1="14" y1="26" x2="24" y2="26"/></svg>`,
+  catering: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="34" width="28" height="16" rx="3"/><circle cx="16" cy="54" r="3"/><circle cx="30" cy="54" r="3"/><rect x="40" y="8" width="28" height="28" rx="4"/><line x1="36" y1="36" x2="40" y2="28"/><line x1="36" y1="42" x2="40" y2="34"/></svg>`,
+  deicer: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="28" width="40" height="20" rx="4"/><circle cx="16" cy="52" r="3"/><circle cx="38" cy="52" r="3"/><path d="M46 28V14c0-2 1-4 3-4h16c2 0 4 2 4 4v14"/><rect x="50" y="14" width="4" height="14" rx="1"/><circle cx="60" cy="8" r="3"/><line x1="60" y1="5" x2="60" y2="2"/><line x1="57" y1="5" x2="55" y2="3"/><line x1="63" y1="5" x2="65" y2="3"/></svg>`,
+  fuel: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="36" cy="36" rx="28" ry="14"/><circle cx="16" cy="54" r="3"/><circle cx="56" cy="54" r="3"/><rect x="6" y="28" width="8" height="16" rx="2"/><line x1="64" y1="30" x2="76" y2="20"/><circle cx="76" cy="18" r="3"/></svg>`,
+  water: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="24" width="48" height="22" rx="8"/><circle cx="18" cy="50" r="3"/><circle cx="48" cy="50" r="3"/><path d="M60 30h10v6h-10"/><path d="M30 20c-2-6 2-10 4-10s6 4 4 10"/></svg>`,
+  lavatory: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="24" width="48" height="22" rx="8"/><circle cx="18" cy="50" r="3"/><circle cx="48" cy="50" r="3"/><path d="M60 30h10v6h-10"/><path d="M26 20L30 12h4l4 8"/></svg>`,
+  gpu: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="20" width="44" height="28" rx="4"/><circle cx="18" cy="52" r="3"/><circle cx="46" cy="52" r="3"/><path d="M58 28h12M58 36h12M58 44h8"/><circle cx="30" cy="34" r="8"/><path d="M26 34h8M30 30v8"/></svg>`,
+  loader: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="26" width="40" height="22" rx="4"/><circle cx="14" cy="52" r="3"/><circle cx="36" cy="52" r="3"/><path d="M44 26L60 10h14v16H44"/><rect x="48" y="14" width="8" height="8" rx="1"/><rect x="58" y="14" width="8" height="8" rx="1"/></svg>`,
+  belt: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="34" width="28" height="16" rx="3"/><circle cx="12" cy="54" r="3"/><circle cx="26" cy="54" r="3"/><line x1="32" y1="40" x2="72" y2="16"/><line x1="32" y1="46" x2="72" y2="22"/><ellipse cx="72" cy="19" rx="4" ry="3" transform="rotate(-20 72 19)"/><ellipse cx="32" cy="43" rx="4" ry="3"/></svg>`,
+  cart: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="24" width="52" height="20" rx="3"/><circle cx="18" cy="48" r="3"/><circle cx="50" cy="48" r="3"/><line x1="60" y1="34" x2="74" y2="34"/><circle cx="74" cy="34" r="2"/></svg>`,
+  sweeper: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="18" width="52" height="24" rx="5"/><circle cx="18" cy="48" r="4"/><circle cx="50" cy="48" r="4"/><line x1="8" y1="34" x2="60" y2="34"/><line x1="12" y1="42" x2="12" y2="48"/><line x1="20" y1="42" x2="20" y2="48"/><line x1="28" y1="42" x2="28" y2="48"/><line x1="36" y1="42" x2="36" y2="48"/><line x1="44" y1="42" x2="44" y2="48"/><line x1="52" y1="42" x2="52" y2="48"/></svg>`,
+  garbage: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="14" width="48" height="34" rx="4"/><circle cx="18" cy="52" r="3"/><circle cx="48" cy="52" r="3"/><path d="M14 14V8h36v6"/><line x1="8" y1="28" x2="56" y2="28"/><path d="M56 24l14 0v18H56"/></svg>`,
+  charger: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="16" y="12" width="48" height="36" rx="6"/><line x1="36" y1="24" x2="44" y2="24"/><line x1="40" y1="20" x2="40" y2="28"/><path d="M34 48v6M46 48v6"/><rect x="28" y="6" width="24" height="8" rx="3"/></svg>`,
+  gear: `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="40" cy="30" r="12"/><circle cx="40" cy="30" r="5"/><path d="M40 8v6M40 46v6M18 30h6M56 30h6"/><path d="M24.4 14.4l4.2 4.2M51.4 41.4l4.2 4.2M24.4 45.6l4.2-4.2M51.4 18.6l4.2-4.2"/></svg>`
+};
+
+/* ===== LANGUAGE SWITCHER ===== */
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = lang === 'ru' ? '' : 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Language preference stored in memory only
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+// Default language is Russian (set in HTML)
+
+/* ===== MOBILE MENU ===== */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+mobileMenu.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ===== HEADER SCROLL ===== */
+const header = document.getElementById('header');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 50);
+}, {passive: true});
+
+/* ===== SCROLL ANIMATIONS ===== */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up,.fade-in').forEach(el => observer.observe(el));
+
+/* ===== COUNTER ANIMATION ===== */
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      if (el.dataset.static) return;
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '+';
+      const duration = 2000;
+      const start = performance.now();
+      function animate(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(eased * target);
+        el.textContent = current.toLocaleString('ru-RU') + (progress >= 1 ? suffix : '');
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-number[data-count]').forEach(el => counterObserver.observe(el));
+
+/* ===== CATALOG FILTERS ===== */
+document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.cat-card').forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.style.display = '';
+        card.classList.remove('visible');
+        void card.offsetWidth;
+        card.classList.add('visible');
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+/* ===== CATEGORY MODAL ===== */
+function openCategoryModal(cat) {
+  const data = categoryData[cat];
+  if (!data) return;
+  const li = LANG[currentLang];
+  document.getElementById('catModalIcon').outerHTML = data.icon.replace('viewBox="0 0 80 80"','viewBox="0 0 80 80" id="catModalIcon"');
+  document.getElementById('catModalTitle').textContent = data.title[li];
+  document.getElementById('catModalSub').textContent = data.sub[li];
+
+  let html = '<h4><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="16" height="16" rx="3"/><line x1="6" y1="8" x2="14" y2="8"/><line x1="6" y1="12" x2="12" y2="12"/></svg> ' +
+    (li===0?'Модели оборудования':li===1?'Equipment Models':'设备型号') + '</h4><div class="product-grid">';
+
+  data.products.forEach((p, i) => {
+    const svgType = typeSVGs[p.type] || typeSVGs.gear;
+    html += `<div class="product-card" onclick="openProductModal('${cat}',${i})">
+      <div class="product-icon">${svgType}</div>
+      <h5>${p.name[li]}</h5>
+      <p>${p.model[li]}</p>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('catModalBody').innerHTML = html;
+  document.getElementById('categoryModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ===== PRODUCT DETAIL MODAL ===== */
+function openProductModal(cat, idx) {
+  const data = categoryData[cat];
+  if (!data || !data.products[idx]) return;
+  const p = data.products[idx];
+  const li = LANG[currentLang];
+
+  document.getElementById('prodModalHeader').querySelector('div h3').textContent = p.name[li];
+  document.getElementById('prodModalHeader').querySelector('div span').textContent = p.model[li];
+
+  const svgType = typeSVGs[p.type] || typeSVGs.gear;
+  document.getElementById('prodIllustration').innerHTML = svgType.replace('<svg','<svg style="width:180px;height:140px;color:var(--primary)"');
+
+  document.getElementById('prodDetailName').textContent = p.name[li];
+  document.getElementById('prodDetailModel').textContent = p.model[li];
+  document.getElementById('prodDetailDesc').textContent = p.desc[li];
+
+  let specsHTML = '';
+  if (p.specs && p.specs.length) {
+    p.specs.forEach(s => {
+      specsHTML += `<tr><td>${s[li]}</td><td>${s[3]}</td></tr>`;
+    });
+  }
+  document.querySelector('#prodSpecsTable tbody').innerHTML = specsHTML;
+  document.getElementById('prodSpecsWrap').style.display = specsHTML ? '' : 'none';
+
+  document.getElementById('categoryModal').classList.remove('open');
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  // If closing product modal, reopen category modal? No, just close.
+  if (id === 'productModal') {
+    // Don't reopen category modal
+  }
+  // Check if any modal is still open
+  const anyOpen = document.querySelector('.modal-overlay.open');
+  if (!anyOpen) document.body.style.overflow = '';
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+  }
+});
+
+/* ===== SMOOTH SCROLL FOR NAV ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) + 4 + 16;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
